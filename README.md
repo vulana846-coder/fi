@@ -12,3 +12,6 @@
 
 ## Автор
 fi_team
+
+## Ссылка на сайт
+https://fi-fish.netlify.app
