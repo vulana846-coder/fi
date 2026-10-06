@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fi</title>
+<style>
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+*{scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+:root{--bg:#000;--card:#0d0d0d;--border:#1f1f1f;--text:#fff;--text-muted:#888;--text-secondary:#ccc;--input-bg:#0d0d0d;--btn-primary-bg:#fff;--btn-primary-text:#000;--accent:#2E7D32;--accent-light:#4CAF50;--nav-bg:#0a0a0a}
+body.light{--bg:#f5f5f5;--card:#fff;--border:#e0e0e0;--text:#000;--text-muted:#888;--text-secondary:#555;--input-bg:#fff;--btn-primary-bg:#000;--btn-primary-text:#fff;--nav-bg:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s;padding-bottom:80px;overflow-x:hidden}
+.screen{width:100%;min-height:100vh}
+.hidden{display:none!important}
+.logo{text-align:center;font-size:36px;font-weight:800;letter-spacing:-1px;margin-top:40px;margin-bottom:40px;color:var(--accent)}
+.form-wrapper{padding:24px}
+h1{font-size:28px;font-weight:700;margin-bottom:8px}
+.subtitle{color:var(--text-muted);font-size:14px;margin-bottom:28px}
+label{display:block;font-size:14px;color:var(--text-secondary);margin-bottom:8px;margin-top:16px}
+input,textarea{width:100%;padding:15px;border:1px solid var(--border);border-radius:12px;background:var(--input-bg);color:var(--text);font-size:15px;outline:none;transition:border-color .2s;font-family:inherit}
+input::placeholder,textarea::placeholder{color:#555}
+input:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:none;min-height:80px}
+.tag-input{display:flex;align-items:center;background:var(--input-bg);border:1px solid var(--border);border-radius:12px;padding-left:16px}
+.tag-input:focus-within{border-color:var(--accent)}
+.tag-input span{color:#666;font-size:15px}
+.tag-input input{border:none;background:transparent;padding-left:4px}
+button{width:100%;padding:16px;background:var(--btn-primary-bg);color:var(--btn-primary-text);border:none;border-radius:12px;cursor:pointer;font-size:16px;font-weight:600;margin-top:26px;transition:opacity .2s}
+button:hover{opacity:.9}
+button.secondary{background:transparent;color:var(--text);border:1px solid var(--border);margin-top:12px}
+.bottom-text{text-align:center;margin-top:22px;font-size:14px;color:var(--text-muted)}
+.bottom-text span{color:var(--accent-light);cursor:pointer}
+.message{text-align:center;margin-top:16px;font-size:13px;min-height:18px}
+.success{color:var(--accent-light)}.error{color:var(--accent-light)}
+.avatar-box{display:flex;justify-content:center;margin:20px 0 30px 0}
+.avatar{width:120px;height:120px;border-radius:50%;background:#1a1a1a;border:2px dashed #333;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}
+.avatar:hover{border-color:var(--accent)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar-text{color:#666;font-size:13px;text-align:center;padding:0 10px}
+.profile-header{position:relative;margin-bottom:20px}
+.cover{width:100%;height:180px;background:linear-gradient(135deg,#2a2a2a 0%,#1a1a1a 100%);background-size:cover;background-position:center;position:relative}
+.cover-edit{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;color:#fff;font-size:16px;margin:0;padding:0}
+.dropdown{position:absolute;top:56px;right:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px;min-width:210px;box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:10}
+.dropdown button{width:100%;padding:12px 14px;background:transparent;border:none;border-radius:8px;color:var(--text);font-size:14px;text-align:left;cursor:pointer;margin:0;font-weight:500}
+.dropdown button:hover{background:var(--border);opacity:1}
+.dropdown button.danger{color:var(--accent-light)}
+.profile-info{display:flex;flex-direction:column;align-items:center;margin-top:-55px;padding:0 20px;position:relative}
+.profile-avatar{width:110px;height:110px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:700;color:var(--accent);overflow:hidden;border:4px solid var(--bg);position:relative}
+.profile-avatar img{width:100%;height:100%;object-fit:cover}
+.online-dot{position:absolute;bottom:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--accent-light);border:3px solid var(--bg);box-sizing:content-box}
+.profile-nick{font-size:22px;font-weight:700;margin-top:14px;margin-bottom:4px;text-align:center}
+.profile-tag{color:var(--text-muted);font-size:15px;margin-bottom:14px}
+.profile-stats{display:flex;gap:28px;margin-bottom:18px;font-size:14px}
+.profile-stats b{color:var(--text);font-weight:700}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0 2px;padding-bottom:100px}
+.post-item{position:relative;aspect-ratio:1/1;background:var(--card);overflow:hidden;cursor:pointer}
+.post-item img,.post-item video{width:100%;height:100%;object-fit:cover;display:block}
+.post-stats{position:absolute;bottom:0;left:0;right:0;display:flex;gap:8px;padding:4px 6px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);font-size:11px;color:#fff;font-weight:600}
+.post-stat{display:flex;align-items:center;gap:3px;transition:color .2s}
+.post-stat.liked{color:var(--accent-light)}
+.feed-list{padding:8px 0 100px}
+.feed-card{background:var(--card);border-radius:16px;margin:12px;overflow:hidden}
+.feed-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer}
+.feed-card-avatar{width:36px;height:36px;border-radius:50%;background:var(--card);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:15px;flex-shrink:0}
+.feed-card-avatar img{width:100%;height:100%;object-fit:cover}
+.feed-card-author{flex:1}
+.feed-card-nick{font-weight:600;font-size:14px}
+.feed-card-time{font-size:12px;color:var(--text-muted)}
+.feed-card-media{width:100%;background:var(--bg);cursor:pointer}
+.feed-card-media img,.feed-card-media video{width:100%;display:block;max-height:500px;object-fit:cover}
+.feed-card-caption{padding:10px 14px 0;font-size:14px;line-height:1.4}
+.feed-card-actions{display:flex;gap:20px;padding:10px 14px;font-size:14px;color:var(--text-muted);align-items:center;border-top:1px solid var(--border);margin-top:10px;position:relative}
+.feed-action-btn{background:transparent;border:none;color:var(--text-muted);font-size:16px;cursor:pointer;padding:0;margin:0;width:auto;display:flex;align-items:center;gap:6px;transition:color .2s}
+.feed-action-btn:hover{color:var(--text)}
+.feed-action-btn.liked{color:var(--accent-light)}
+.feed-action-btn.liked svg{fill:var(--accent-light)}
+.feed-action-btn svg{width:22px;height:22px;display:block}
+.feed-action-btn .count{font-size:13px;font-weight:600}
+.feed-views{position:absolute;right:14px;bottom:10px;display:flex;align-items:center;gap:5px;color:var(--text-muted);font-size:13px;font-weight:600;cursor:pointer}
+.feed-views svg{width:20px;height:20px;display:block}
+.feed-comments{padding:8px 14px 12px;border-top:1px solid var(--border)}
+.feed-comments-list{max-height:200px;overflow-y:auto;margin-bottom:8px}
+.feed-comment{display:flex;gap:8px;margin-bottom:8px;font-size:13px}
+.feed-comment-avatar{width:24px;height:24px;border-radius:50%;background:var(--card);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--accent);flex-shrink:0}
+.feed-comment-avatar img{width:100%;height:100%;object-fit:cover}
+.feed-comment-body{flex:1}
+.feed-comment-nick{font-weight:600;font-size:12px;color:var(--text)}
+.feed-comment-nick .feed-comment-time{color:var(--text-muted);font-weight:400;font-size:11px;margin-left:6px}
+.feed-comment-text{color:var(--text-secondary);line-height:1.4;font-size:13px}
+.feed-comment-image{max-width:140px;max-height:140px;border-radius:8px;margin-top:4px;display:block}
+.feed-comment-form{display:flex;gap:6px;align-items:center}
+.feed-comment-form input{flex:1;margin:0;padding:9px 12px;font-size:13px;border-radius:18px}
+.feed-comment-form .feed-add-btn{width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:20px;font-weight:300;cursor:pointer;padding:0;margin:0;flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1;transition:all .2s}
+.feed-comment-form .feed-add-btn:hover{color:var(--accent-light);border-color:var(--accent-light)}
+.feed-comment-form button.send-btn{width:auto;margin:0;padding:9px 14px;background:var(--accent);color:#fff;font-size:13px;font-weight:600;border-radius:18px}
+.feed-comment-preview{position:relative;display:inline-block;margin-top:6px}
+.feed-comment-preview img{max-width:100px;max-height:100px;border-radius:8px;display:block}
+.feed-comment-preview .remove-photo{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--accent-light);color:#fff;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1}
+.person-item{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--border)}
+.person-avatar{width:44px;height:44px;border-radius:50%;background:var(--card);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:17px;flex-shrink:0}
+.person-avatar img{width:100%;height:100%;object-fit:cover}
+.person-info{flex:1;min-width:0}
+.person-nick{font-weight:600;font-size:14px}
+.person-tag{font-size:12px;color:var(--text-muted)}
+.person-btn{width:auto;margin:0;padding:7px 12px;font-size:12px;border-radius:20px;background:var(--accent);color:#fff;border:none;cursor:pointer;flex-shrink:0}
+.person-btn.following{background:transparent;border:1px solid var(--border);color:var(--text)}
+.person-btn.msg{background:transparent;border:1px solid var(--border);color:var(--text);padding:7px 10px}
+.chat-list-item{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--border);cursor:pointer}
+.chat-list-item:hover{background:var(--card)}
+.chat-list-avatar{width:48px;height:48px;border-radius:50%;background:var(--card);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:18px;flex-shrink:0}
+.chat-list-avatar img{width:100%;height:100%;object-fit:cover}
+.chat-list-info{flex:1;min-width:0}
+.chat-list-nick{font-weight:600;font-size:15px}
+.chat-list-last{font-size:13px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-list-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.chat-list-time{font-size:11px;color:var(--text-muted)}
+.chat-screen{display:flex;flex-direction:column;height:100vh;padding-bottom:0}
+.chat-header{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:10}
+.chat-header-avatar{width:40px;height:40px;border-radius:50%;background:var(--card);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);flex-shrink:0}
+.chat-header-avatar img{width:100%;height:100%;object-fit:cover}
+.chat-header-nick{font-weight:600;font-size:15px}
+.chat-header-tag{font-size:12px;color:var(--text-muted)}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:75%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.4;word-wrap:break-word}
+.msg.me{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.msg.them{align-self:flex-start;background:var(--card);color:var(--text);border-bottom-left-radius:4px}
+.msg-time{font-size:10px;opacity:.7;margin-top:4px;text-align:right}
+.chat-input-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--border);background:var(--bg)}
+.chat-input-row input{flex:1;margin:0;padding:12px 16px;border-radius:24px;font-size:14px}
+.chat-input-row button{width:auto;margin:0;padding:12px 20px;border-radius:24px;background:var(--accent);color:#fff;font-size:14px;font-weight:600}
+.search-box{padding:8px 24px 16px}
+.search-box input{margin:0;padding:12px 16px;border-radius:20px;font-size:14px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:var(--nav-bg);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:100}
+.nav-item{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);font-size:11px;background:transparent;border:none;padding:14px 0;margin:0;transition:color .2s;font-weight:500}
+.nav-item.active{color:var(--accent);font-weight:600}
+.back-btn{width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;z-index:101;padding:0;margin:0;flex-shrink:0}
+body.light .back-btn{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.1);color:#000}
+.fab{position:fixed;bottom:84px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(46,125,50,.4);z-index:50;margin:0;padding:0;line-height:1}
+.edit-cover-box{display:flex;justify-content:center;margin:20px 0}
+.edit-cover{width:100%;height:120px;border-radius:16px;background:var(--card);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:var(--text-muted);font-size:13px;background-size:cover;background-position:center}
+.post-preview{width:200px;height:200px;max-width:100%;background:var(--card);border-radius:16px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:var(--text-muted);font-size:12px;margin:20px auto;position:relative;text-align:center;padding:12px}
+.post-preview img,.post-preview video{width:100%;height:100%;object-fit:cover}
+.feed-empty{text-align:center;color:var(--text-muted);font-size:14px;padding:60px 20px;border:1px dashed var(--border);border-radius:16px;margin:20px auto;max-width:460px;grid-column:1/-1}
+.camera-area{padding:0 24px 24px;display:flex;flex-direction:column;min-height:calc(100vh - 200px)}
+.camera-frame{width:100%;max-width:260px;aspect-ratio:1;margin:0 auto 16px;background:var(--card);border:2px dashed var(--border);border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:var(--text-muted);font-size:13px;position:relative;text-align:center;padding:16px}
+.camera-frame img{width:100%;height:100%;object-fit:cover}
+.camera-frame:hover{border-color:var(--accent)}
+.ai-result{background:var(--card);border:1px solid var(--accent);border-radius:14px;padding:16px;margin-top:12px;text-align:center}
+.ai-result-title{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.ai-result-name{font-size:20px;font-weight:700;color:var(--accent)}
+.ai-result-desc{font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.5}
+.post-view{padding:16px 16px 100px;max-width:600px;margin:0 auto}
+.post-view-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.post-view-avatar{width:40px;height:40px;border-radius:50%;background:var(--card);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent)}
+.post-view-avatar img{width:100%;height:100%;object-fit:cover}
+.post-view-nick{font-weight:600;font-size:14px}
+.post-view-time{font-size:12px;color:var(--text-muted)}
+.post-view-media{width:100%;border-radius:14px;overflow:hidden;background:var(--card);margin-bottom:12px}
+.post-view-media img,.post-view-media video{width:100%;display:block}
+.post-view-caption{font-size:15px;line-height:1.5;margin-bottom:14px;padding:0 4px}
+.post-view-stats{display:flex;gap:20px;padding:12px 4px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);font-size:14px;color:var(--text-muted);align-items:center;position:relative}
+.post-view-stats .stat-group{display:flex;align-items:center;gap:5px}
+.post-view-stats .stat-group svg{width:20px;height:20px;display:block;stroke:var(--text-muted)}
+.post-view-stats .like-btn-sm{background:transparent;border:none;color:var(--text-muted);font-size:22px;cursor:pointer;padding:0;margin:0;width:auto;transition:color .2s;line-height:1}
+.post-view-stats .like-btn-sm.liked{color:var(--accent-light)}
+.post-view-stats b{color:var(--text);font-weight:600}
+.pv-views{position:absolute;right:4px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:5px;color:var(--text-muted);font-size:13px;font-weight:600}
+.pv-views svg{width:20px;height:20px;display:block;stroke:var(--text-muted)}
+.comments{margin-top:20px}
+.comments-title{font-size:14px;font-weight:600;margin-bottom:12px}
+.comment{display:flex;gap:10px;margin-bottom:12px}
+.comment-avatar{width:32px;height:32px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--accent);flex-shrink:0;overflow:hidden}
+.comment-avatar img{width:100%;height:100%;object-fit:cover}
+.comment-body{flex:1}
+.comment-nick{font-size:13px;font-weight:600;margin-bottom:2px}
+.comment-text{font-size:14px;color:var(--text-secondary);line-height:1.4}
+.comment-image{max-width:180px;max-height:180px;border-radius:10px;margin-top:6px;cursor:pointer;display:block}
+.comment-add-btn{background:transparent;border:1px solid var(--border);color:var(--text-muted);font-size:22px;font-weight:300;cursor:pointer;padding:0;margin:0;width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;line-height:1;transition:all .2s}
+.comment-add-btn:hover{color:var(--accent-light);border-color:var(--accent-light)}
+.comment-photo-preview{position:relative;display:inline-block;margin-top:8px}
+.comment-photo-preview img{max-width:120px;max-height:120px;border-radius:8px;display:block}
+.comment-photo-preview .remove-photo{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--accent-light);color:#fff;border:none;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1}
+.comment-actions{display:flex;gap:12px;margin-top:6px;align-items:center}
+.comment-like-btn{background:transparent;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;padding:0;margin:0;width:auto;display:flex;align-items:center;gap:4px;transition:color .2s}
+.comment-like-btn.liked{color:var(--accent-light)}
+.comment-delete-btn{background:transparent;border:none;color:var(--text-muted);font-size:12px;cursor:pointer;padding:0;margin:0;width:auto;transition:color .2s}
+.comment-delete-btn:hover{color:var(--accent-light)}
+.comment-form{display:flex;gap:8px;margin-top:16px;align-items:center}
+.comment-form input{flex:1;margin:0;padding:12px;font-size:14px}
+.comment-form button.send-btn{width:auto;margin:0;padding:12px 18px;background:var(--accent);color:#fff;font-size:14px;font-weight:600}
+.theme-row{display:flex;align-items:center;justify-content:space-between;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-top:20px}
+.theme-row .theme-label{font-size:15px;color:var(--text)}
+.theme-switch{width:52px;height:30px;border-radius:15px;background:var(--border);position:relative;cursor:pointer;border:none;padding:0;margin:0;transition:background .2s;flex-shrink:0}
+.theme-switch.on{background:var(--accent)}
+.theme-switch::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s}
+.theme-switch.on::after{transform:translateX(22px)}
+</style>
+</head>
+<body>
+
+<div id="registerBox" class="screen">
+<div class="logo">fi</div>
+<div class="form-wrapper">
+<h1>создать аккаунт</h1>
+<p class="subtitle">введите email и пароль</p>
+<form id="registerForm">
+<label>email</label><input type="email" id="regEmail" placeholder="example@mail.com" required>
+<label>пароль</label><input type="password" id="regPassword" placeholder="минимум 6 символов" required minlength="6">
+<button type="submit">далее</button>
+</form>
+<div id="regMessage" class="message"></div>
+<div class="bottom-text">уже есть аккаунт? <span onclick="showLogin()">войти</span></div>
+</div>
+</div>
+
+<div id="profileSetupBox" class="screen hidden">
+<div class="logo">fi</div>
+<div class="form-wrapper">
+<h1>создайте профиль</h1>
+<p class="subtitle">как вас будут видеть другие</p>
+<div class="avatar-box">
+<div class="avatar" onclick="document.getElementById('avatarInput').click()">
+<div id="avatarPlaceholder" class="avatar-text">нажмите, чтобы выбрать</div>
+<img id="avatarPreview" class="hidden" alt="">
+</div>
+<input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="previewAvatar(event)">
+</div>
+<form id="profileForm">
+<label>ник</label><input type="text" id="profileNick" placeholder="иван" required minlength="2" maxlength="30">
+<label>тег</label>
+<div class="tag-input"><span>@</span><input type="text" id="profileTag" placeholder="ivan" required minlength="3" maxlength="20" pattern="[a-z0-9_]+"></div>
+<button type="submit">готово</button>
+</form>
+<div id="profileMessage" class="message"></div>
+</div>
+</div>
+
+<div id="loginBox" class="screen hidden">
+<div class="logo">fi</div>
+<div class="form-wrapper">
+<h1>вход</h1>
+<p class="subtitle">введите ваши данные</p>
+<form id="loginForm">
+<label>email</label><input type="email" id="loginEmail" placeholder="example@mail.com" required>
+<label>пароль</label><input type="password" id="loginPassword" placeholder="пароль" required>
+<button type="submit">войти</button>
+</form>
+<div id="loginMessage" class="message"></div>
+<div class="bottom-text">ещё нет аккаунта? <span onclick="showRegister()">создать</span></div>
+</div>
+</div>
+
+<div id="profileScreen" class="screen hidden">
+<div class="profile-header">
+<div class="cover" id="appCover">
+<button class="cover-edit" onclick="toggleDropdown(event)">✎</button>
+<div class="dropdown hidden" id="profileDropdown">
+<button onclick="showEditProfile()">редактировать профиль</button>
+<button class="danger" onclick="logout()">выйти</button>
+</div>
+</div>
+</div>
+<div class="profile-info">
+<div class="profile-avatar"><div id="appAvatar">?</div><div class="online-dot"></div></div>
+<div class="profile-nick" id="appNick">—</div>
+<div class="profile-tag" id="appTag">—</div>
+<div class="profile-stats">
+<span><b id="statPosts">0</b> публикаций</span>
+<span><b id="statFollowers">0</b> подписчиков</span>
+<span><b id="statFollowing">0</b> подписок</span>
+</div>
+</div>
+<div class="posts-grid" id="postsGrid"></div>
+<button class="fab" onclick="showCreatePost()">+</button>
+</div>
+
+<div id="editProfileBox" class="screen hidden">
+<div class="form-wrapper">
+<h1>редактировать</h1>
+<p class="subtitle">измените данные профиля</p>
+<div class="edit-cover-box">
+<div class="edit-cover" id="editCoverPreview" onclick="document.getElementById('editCoverInput').click()">нажмите, чтобы выбрать фон</div>
+<input type="file" id="editCoverInput" accept="image/*" class="hidden" onchange="previewEditCover(event)">
+</div>
+<div class="avatar-box">
+<div class="avatar" onclick="document.getElementById('editAvatarInput').click()">
+<div id="editAvatarPlaceholder" class="avatar-text">аватар</div>
+<img id="editAvatarPreview" class="hidden" alt="">
+</div>
+<input type="file" id="editAvatarInput" accept="image/*" class="hidden" onchange="previewEditAvatar(event)">
+</div>
+<form id="editProfileForm">
+<label>ник</label><input type="text" id="editNick" required minlength="2" maxlength="30">
+<label>тег</label>
+<div class="tag-input"><span>@</span><input type="text" id="editTag" required minlength="3" maxlength="20" pattern="[a-z0-9_]+"></div>
+<button type="submit">сохранить</button>
+<button type="button" class="secondary" onclick="showScreen('profileScreen')">отмена</button>
+</form>
+<div class="theme-row">
+<span class="theme-label">светлая тема</span>
+<button class="theme-switch" id="themeSwitch" onclick="toggleTheme()"></button>
+</div>
+<div id="editMessage" class="message"></div>
+</div>
+</div>
+
+<div id="createPostBox" class="screen hidden">
+<div class="form-wrapper">
+<h1>новая публикация</h1>
+<p class="subtitle">добавьте фото или видео</p>
+<div class="post-preview" id="postPreview" onclick="document.getElementById('postFileInput').click()">
+<div id="postPlaceholder">нажмите, чтобы<br>выбрать фото или видео</div>
+</div>
+<input type="file" id="postFileInput" accept="image/*,video/*" class="hidden" onchange="previewPost(event)">
+<form id="createPostForm">
+<label>подпись</label><textarea id="postCaption" placeholder="расскажите о своём улове..." maxlength="300"></textarea>
+<button type="submit">опубликовать</button>
+<button type="button" class="secondary" onclick="showScreen('profileScreen')">отмена</button>
+</form>
+<div id="postMessage" class="message"></div>
+</div>
+</div>
+
+<div id="postViewBox" class="screen hidden">
+<button class="back-btn" onclick="closePostView()" style="position:fixed;top:12px;left:12px;">←</button>
+<div class="post-view">
+<div class="post-view-header">
+<div class="post-view-avatar" id="pvAvatar">?</div>
+<div>
+<div class="post-view-nick" id="pvNick">—</div>
+<div class="post-view-time" id="pvTime">—</div>
+</div>
+</div>
+<div class="post-view-media" id="pvMedia"></div>
+<div class="post-view-caption" id="pvCaption"></div>
+<div class="post-view-stats">
+<div class="stat-group">
+<button class="like-btn-sm" id="pvLikeBtn" onclick="toggleLike()">♡</button>
+<b id="pvLikes">0</b>
+</div>
+<div class="stat-group">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+<b id="pvComments">0</b>
+</div>
+<div class="pv-views">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<b id="pvViews">0</b>
+</div>
+</div>
+<div class="comments">
+<div class="comments-title">комментарии</div>
+<div id="commentsList"></div>
+<div class="comment-form">
+<button type="button" class="comment-add-btn" onclick="document.getElementById('commentPhotoInput').click()" title="прикрепить фото">+</button>
+<input type="text" id="commentInput" placeholder="написать комментарий..." onkeydown="if(event.key==='Enter')addComment()">
+<input type="file" id="commentPhotoInput" accept="image/*" class="hidden" onchange="previewCommentPhoto(event)">
+<button type="button" class="send-btn" onclick="addComment()">отправить</button>
+</div>
+<div id="commentPhotoPreview" class="comment-photo-preview hidden"></div>
+</div>
+</div>
+</div>
+
+<div id="feedScreen" class="screen hidden">
+<div class="form-wrapper" style="padding-bottom:8px;"><h1>лента</h1><p class="subtitle">публикации рыбаков</p></div>
+<div class="feed-list" id="feedList"></div>
+</div>
+
+<div id="peopleScreen" class="screen hidden">
+<div class="form-wrapper" style="padding-bottom:8px;"><h1>люди</h1><p class="subtitle">найдите рыбаков</p></div>
+<div class="search-box"><input type="text" id="peopleSearch" placeholder="поиск..." oninput="renderPeople()"></div>
+<div id="peopleList"></div>
+</div>
+
+<div id="messagesScreen" class="screen hidden">
+<div class="form-wrapper" style="padding-bottom:8px;"><h1>сообщения</h1><p class="subtitle">ваши переписки</p></div>
+<div id="chatList"></div>
+</div>
+
+<div id="chatScreen" class="screen hidden">
+<div class="chat-screen">
+<div class="chat-header">
+<button class="back-btn" onclick="goBackFromChat()">←</button>
+<div class="chat-header-avatar" id="chatAvatar">?</div>
+<div><div class="chat-header-nick" id="chatNick">—</div><div class="chat-header-tag" id="chatTag">—</div></div>
+</div>
+<div class="chat-messages" id="chatMessages"></div>
+<div class="chat-input-row">
+<input type="text" id="chatInput" placeholder="сообщение..." onkeydown="if(event.key==='Enter')sendMessage()">
+<button onclick="sendMessage()">→</button>
+</div>
+</div>
+</div>
+
+<div id="cameraScreen" class="screen hidden">
+<div class="form-wrapper" style="padding-bottom:0;"><h1>камера</h1><p class="subtitle">определение рыбы по фото</p></div>
+<div class="camera-area">
+<div class="camera-frame" id="cameraFrame" onclick="document.getElementById('cameraInput').click()">
+<div id="cameraPlaceholder">нажмите, чтобы сделать или выбрать фото</div>
+<img id="cameraPreview" class="hidden" alt="">
+</div>
+<input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden" onchange="previewCamera(event)">
+<div id="aiResult" class="ai-result hidden">
+<div class="ai-result-title">возможно, это</div>
+<div class="ai-result-name" id="aiResultName">—</div>
+<div class="ai-result-desc" id="aiResultDesc"></div>
+</div>
+<button onclick="analyzeFish()" id="analyzeBtn" class="hidden" style="margin-top:14px;">определить рыбу</button>
+</div>
+</div>
+
+<div class="bottom-nav" id="bottomNav" style="display:none;">
+<button class="nav-item" onclick="switchTab('feed')" id="navFeed">лента</button>
+<button class="nav-item" onclick="switchTab('people')" id="navPeople">люди</button>
+<button class="nav-item" onclick="switchTab('camera')" id="navCamera">камера</button>
+<button class="nav-item" onclick="switchTab('messages')" id="navMessages">сообщения</button>
+<button class="nav-item" onclick="switchTab('profile')" id="navProfile">профиль</button>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/posts.js"></script>
+<script src="js/chats.js"></script>
+<script src="js/camera.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
